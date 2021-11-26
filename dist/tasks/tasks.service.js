@@ -16,7 +16,8 @@ let TasksService = class TasksService {
     getAllTasks() {
         return this.tasks;
     }
-    createTask(title, description) {
+    createTask(createTaskDto) {
+        const { title, description } = createTaskDto;
         const task = {
             id: Math.random().toString(),
             title,
@@ -24,6 +25,37 @@ let TasksService = class TasksService {
             status: task_model_1.TaskStatus.OPEN,
         };
         this.tasks.push(task);
+        return task;
+    }
+    getTaskById(id) {
+        return this.tasks.find((task) => task.id === id);
+    }
+    deleteTask(id) {
+        this.tasks = this.tasks.filter((task) => task.id !== id);
+    }
+    updateTask(id, task) {
+        const oldTask = this.getTaskById(id);
+        oldTask.title = task.title;
+        oldTask.description = task.description;
+        return oldTask;
+    }
+    getTaskByStatus(status) {
+        return this.tasks.filter((task) => task.status === status);
+    }
+    getTasksWithFilters(filterDto) {
+        const { status, search } = filterDto;
+        let tasks = this.getAllTasks();
+        if (status) {
+            tasks = this.getTaskByStatus(status);
+        }
+        if (search) {
+            tasks = tasks.filter((task) => task.title.includes(search) || task.description.includes(search));
+        }
+        return tasks;
+    }
+    updateTaskStatus(id, status) {
+        const task = this.getTaskById(id);
+        task.status = status;
         return task;
     }
 };
