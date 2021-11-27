@@ -10,12 +10,14 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const tasks_module_1 = require("./tasks/tasks.module");
 const typeorm_1 = require("@nestjs/typeorm");
+const auth_module_1 = require("./auth/auth.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             tasks_module_1.TasksModule,
+            auth_module_1.AuthModule,
             typeorm_1.TypeOrmModule.forRoot({
                 type: "postgres",
                 host: "localhost",

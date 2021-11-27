@@ -1,7 +1,7 @@
 import { CreateTaskDto } from "./dto/create-task.dto";
 import { GetTaskFilterDto } from "./dto/get-task-filter.dto";
 import { UpdateTaskStatusDto } from "./dto/update-task-status.dto";
-import { Task } from "../Entity/task.entity";
+import { Task } from "./Entity/task.entity";
 import { TasksService } from "./tasks.service";
 export declare class TasksController {
     private taskService;

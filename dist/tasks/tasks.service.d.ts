@@ -1,8 +1,8 @@
 import { TaskStatus } from "./task.status";
 import { CreateTaskDto } from "./dto/create-task.dto";
 import { GetTaskFilterDto } from "./dto/get-task-filter.dto";
-import { Task } from "../Entity/task.entity";
-import { TaskRepository } from "../repository/task.repository";
+import { Task } from "./Entity/task.entity";
+import { TaskRepository } from "./repository/task.repository";
 export declare class TasksService {
     private taskRepository;
     constructor(taskRepository: TaskRepository);
