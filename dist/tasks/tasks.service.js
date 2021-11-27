@@ -28,10 +28,15 @@ let TasksService = class TasksService {
         return task;
     }
     getTaskById(id) {
-        return this.tasks.find((task) => task.id === id);
+        const found = this.tasks.find((task) => task.id === id);
+        if (!found) {
+            throw new common_1.NotFoundException(`Task with id ${id} not found`);
+        }
+        return found;
     }
     deleteTask(id) {
-        this.tasks = this.tasks.filter((task) => task.id !== id);
+        const found = this.getTaskById(id);
+        this.tasks = this.tasks.filter((task) => task.id !== found.id);
     }
     updateTask(id, task) {
         const oldTask = this.getTaskById(id);
