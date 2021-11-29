@@ -12,17 +12,28 @@ const auth_service_1 = require("./auth.service");
 const auth_controller_1 = require("./auth.controller");
 const user_repository_1 = require("./repository/user.repository");
 const typeorm_1 = require("@nestjs/typeorm");
+const passport_1 = require("@nestjs/passport");
+const jwt_1 = require("@nestjs/jwt");
+const jwt_strategy_1 = require("./passport strategies/jwt.strategy");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            passport_1.PassportModule.register({ defaultStrategy: 'jwt' }),
+            jwt_1.JwtModule.register({
+                secret: 'secret',
+                signOptions: {
+                    expiresIn: 3600,
+                },
+            }),
             typeorm_1.TypeOrmModule.forFeature([
                 user_repository_1.UserRepository,
             ]),
         ],
-        providers: [auth_service_1.AuthService],
-        controllers: [auth_controller_1.AuthController]
+        providers: [auth_service_1.AuthService, jwt_strategy_1.JwtStrategy],
+        controllers: [auth_controller_1.AuthController],
+        exports: [jwt_strategy_1.JwtStrategy, passport_1.PassportModule],
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;

@@ -5,7 +5,6 @@ import {
 import { EntityRepository, Repository } from "typeorm";
 import { AuthCredentialDto } from "../dto/auth.credential.dto";
 import { User } from "../entities/user.enty";
-//Import bcrypt
 import * as bcrypt from "bcrypt";
 
 @EntityRepository(User)

@@ -10,7 +10,4 @@ export  class AuthCredentialDto{
     @MinLength(6)
     @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,{message:"Votre mot de passe est tres faible"})
     password:String;
-
-
-
 }

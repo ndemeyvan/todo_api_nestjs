@@ -1,4 +1,3 @@
-// import isNotEmpty from class-validator
 import {
   IsEnum,
   IsNotEmpty,
