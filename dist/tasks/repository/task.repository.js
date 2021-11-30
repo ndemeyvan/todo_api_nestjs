@@ -13,30 +13,42 @@ const get_task_filter_dto_1 = require("../dto/get-task-filter.dto");
 const task_status_1 = require("../task.status");
 const typeorm_1 = require("typeorm");
 const task_entity_1 = require("../Entity/task.entity");
+const common_1 = require("@nestjs/common");
 let TaskRepository = class TaskRepository extends typeorm_1.Repository {
+    constructor() {
+        super(...arguments);
+        this.logger = new common_1.Logger('TaskRepository');
+    }
     async createTask(createTaskDto, user) {
         const { title, description } = createTaskDto;
         const obj = {
             title,
             description,
             status: task_status_1.TaskStatus.OPEN,
-            user
+            user,
         };
         const task = this.create(obj);
         await this.save(task);
         return task;
     }
-    async getTasks(filterDto) {
+    async getTasks(filterDto, user) {
         const { status, search } = filterDto;
-        const query = this.createQueryBuilder("task");
+        const query = this.createQueryBuilder('task');
+        query.where({ user });
         if (status) {
-            query.andWhere("task.status = :status", { status });
+            query.andWhere('task.status = :status', { status });
         }
         if (search) {
-            query.andWhere("LOWER(task.title) LIKE LOWER(:search) OR LOWER(task.description) LIKE LOWER(:search)", { search: `%${search}%` });
+            query.andWhere('(LOWER(task.title) LIKE LOWER(:search) OR LOWER(task.description) LIKE LOWER(:search))', { search: `%${search}%` });
         }
-        const tasks = query.getMany();
-        return tasks;
+        try {
+            const tasks = query.getMany();
+            return tasks;
+        }
+        catch (error) {
+            this.logger.error(`Failed to get tasks for user "${user.username}", Filters: ${JSON.stringify(filterDto)}`, error.stack);
+            throw new common_1.InternalServerErrorException();
+        }
     }
 };
 TaskRepository = __decorate([

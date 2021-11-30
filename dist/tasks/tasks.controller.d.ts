@@ -6,10 +6,11 @@ import { Task } from "./Entity/task.entity";
 import { TasksService } from "./tasks.service";
 export declare class TasksController {
     private taskService;
+    private logger;
     constructor(taskService: TasksService);
-    getTask(filterDto: GetTaskFilterDto): Promise<Task[]>;
+    getTask(filterDto: GetTaskFilterDto, user: User): Promise<Task[]>;
     createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task>;
-    getTaskById(id: number): Promise<Task>;
-    deleteTaskById(id: number): Promise<void>;
-    updateTaskStatus(id: number, updateTaskStatus: UpdateTaskStatusDto): Promise<Task>;
+    getTaskById(id: number, user: User): Promise<Task>;
+    deleteTaskById(id: number, user: User): Promise<void>;
+    updateTaskStatus(id: number, updateTaskStatus: UpdateTaskStatusDto, user: User): Promise<Task>;
 }
