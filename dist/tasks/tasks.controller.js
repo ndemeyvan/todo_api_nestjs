@@ -14,6 +14,9 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TasksController = void 0;
 const common_1 = require("@nestjs/common");
+const passport_1 = require("@nestjs/passport");
+const get_user_decorator_1 = require("../auth/decorator/get-user.decorator");
+const user_enty_1 = require("../auth/entities/user.enty");
 const create_task_dto_1 = require("./dto/create-task.dto");
 const get_task_filter_dto_1 = require("./dto/get-task-filter.dto");
 const update_task_status_dto_1 = require("./dto/update-task-status.dto");
@@ -25,8 +28,8 @@ let TasksController = class TasksController {
     getTask(filterDto) {
         return this.taskService.getTasksWithFilters(filterDto);
     }
-    createTask(createTaskDto) {
-        return this.taskService.createTask(createTaskDto);
+    createTask(createTaskDto, user) {
+        return this.taskService.createTask(createTaskDto, user);
     }
     getTaskById(id) {
         return this.taskService.getTaskById(id);
@@ -40,6 +43,7 @@ let TasksController = class TasksController {
 };
 __decorate([
     (0, common_1.Get)(),
+    (0, common_1.UseInterceptors)(common_1.ClassSerializerInterceptor),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [get_task_filter_dto_1.GetTaskFilterDto]),
@@ -47,9 +51,11 @@ __decorate([
 ], TasksController.prototype, "getTask", null);
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UseInterceptors)(common_1.ClassSerializerInterceptor),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_task_dto_1.CreateTaskDto]),
+    __metadata("design:paramtypes", [create_task_dto_1.CreateTaskDto, user_enty_1.User]),
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "createTask", null);
 __decorate([
@@ -76,6 +82,7 @@ __decorate([
 ], TasksController.prototype, "updateTaskStatus", null);
 TasksController = __decorate([
     (0, common_1.Controller)("tasks"),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)()),
     __metadata("design:paramtypes", [tasks_service_1.TasksService])
 ], TasksController);
 exports.TasksController = TasksController;

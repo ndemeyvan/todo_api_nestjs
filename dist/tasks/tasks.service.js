@@ -16,6 +16,7 @@ exports.TasksService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const task_repository_1 = require("./repository/task.repository");
+const user_enty_1 = require("../auth/entities/user.enty");
 let TasksService = class TasksService {
     constructor(taskRepository) {
         this.taskRepository = taskRepository;
@@ -27,8 +28,8 @@ let TasksService = class TasksService {
         }
         return found;
     }
-    createTask(createTaskDto) {
-        return this.taskRepository.createTask(createTaskDto);
+    createTask(createTaskDto, user) {
+        return this.taskRepository.createTask(createTaskDto, user);
     }
     async deleteTask(id) {
         const result = await this.taskRepository.delete(id);
@@ -37,7 +38,7 @@ let TasksService = class TasksService {
         }
     }
     async getTasksWithFilters(filterDto) {
-        let tasks = await this.taskRepository.getTasks(filterDto);
+        const tasks = await this.taskRepository.getTasks(filterDto);
         return tasks;
     }
     async updateTaskStatus(id, status) {

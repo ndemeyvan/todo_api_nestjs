@@ -7,18 +7,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TaskRepository = void 0;
+const user_enty_1 = require("../../auth/entities/user.enty");
 const create_task_dto_1 = require("../dto/create-task.dto");
 const get_task_filter_dto_1 = require("../dto/get-task-filter.dto");
 const task_status_1 = require("../task.status");
 const typeorm_1 = require("typeorm");
 const task_entity_1 = require("../Entity/task.entity");
 let TaskRepository = class TaskRepository extends typeorm_1.Repository {
-    async createTask(createTaskDto) {
+    async createTask(createTaskDto, user) {
         const { title, description } = createTaskDto;
         const obj = {
             title,
             description,
             status: task_status_1.TaskStatus.OPEN,
+            user
         };
         const task = this.create(obj);
         await this.save(task);

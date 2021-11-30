@@ -1,5 +1,5 @@
-import { AuthService } from "./auth.service";
-import { AuthCredentialDto } from "./dto/auth.credential.dto";
+import { AuthService } from './auth.service';
+import { AuthCredentialDto } from './dto/auth.credential.dto';
 export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
@@ -7,4 +7,5 @@ export declare class AuthController {
     signIn(authCredentialDto: AuthCredentialDto): Promise<{
         accessToken: any;
     }>;
+    test(req: any): void;
 }

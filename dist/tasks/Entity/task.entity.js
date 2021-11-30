@@ -10,6 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Task = void 0;
+const class_transformer_1 = require("class-transformer");
+const user_enty_1 = require("../../auth/entities/user.enty");
 const typeorm_1 = require("typeorm");
 const task_status_1 = require("../task.status");
 let Task = class Task {
@@ -30,6 +32,11 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Task.prototype, "status", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)((type) => user_enty_1.User, (user) => user.task, { eager: true }),
+    (0, class_transformer_1.Exclude)({ toPlainOnly: true }),
+    __metadata("design:type", user_enty_1.User)
+], Task.prototype, "user", void 0);
 Task = __decorate([
     (0, typeorm_1.Entity)()
 ], Task);

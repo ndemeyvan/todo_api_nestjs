@@ -16,7 +16,6 @@ let UserRepository = class UserRepository extends typeorm_1.Repository {
         const { username, password } = autCredentialDto;
         const salt = await bcrypt.genSalt();
         const hashPassword = await bcrypt.hash(password, salt);
-        console.log("#### This is the hashPassword : " + hashPassword);
         const user = this.create({
             username,
             password: hashPassword,
